@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Zenntzy</title>
+  <style>
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      z-index: 1;
+      padding: 50px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .profile-img {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #00bfff;
+      box-shadow: 0 0 20px #00bfff;
+      margin-bottom: 20px;
+    }
+
+    .name {
+      font-size: 28px;
+      font-weight: bold;
+      color: #00bfff;
+      margin-bottom: 30px;
+      height: 32px;
+    }
+
+    .typing::after {
+      content: '|';
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    .link-list, .music-box {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .link-list a {
+      width: 100%;
+      max-width: 300px;
+      background-color: #00bfff;
+      color: white;
+      padding: 14px 0;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 16px;
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .link-list a:hover {
+      background-color: #009acd;
+      transform: scale(1.03);
+    }
+
+    .music-box {
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid #00bfff;
+      border-radius: 20px;
+      padding: 15px;
+      max-width: 300px;
+    }
+
+    .music-box button {
+      width: 100%;
+      background-color: #00bfff;
+      color: white;
+      padding: 12px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .music-box button:hover {
+      background-color: #009acd;
+    }
+
+    footer {
+      margin: 30px 0 20px;
+      font-size: 13px;
+      color: #aaa;
+      text-align: center;
+      z-index: 1;
+    }
+
+    @media (max-width: 600px) {
+      .name { font-size: 24px; }
+      .link-list a, .music-box button {
+        font-size: 14px;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Bintang -->
+  <canvas id="stars"></canvas>
+
+  <div class="container">
+    <img src="https://files.catbox.moe/7rodvo.jpg" alt="Foto Zenntzy" class="profile-img" />
+    <div class="name"><span class="typing" id="type-text"></span></div>
+
+    <div class="link-list">
+      <a href="https://wa.me/62895326533928" target="_blanhttps://www.tiktok.com/@zenn.pria.dingin?_t=ZS-8xm3jXuul3o&_r=1k">WhatsApp</a>
+      <a href="" target="_blank">TikTok</a>
+      <a href="-" target="_blank">Instagram</a>
+      <a href="https://whatsapp.com/channel/0029VbB5R7X2Jl8LbCBGE603" target="_blank">WhatsApp Channel</a>
+    </div>
+
+    <div class="music-box">
+      <audio id="myAudio" loop>
+        <source src="https://files.catbox.moe/llcl8f.m4a" type="audio/mpeg">
+        Browser kamu tidak mendukung audio.
+      </audio>
+      <button onclick="document.getElementById('myAudio').play()">▶ Play</button>
+      <button onclick="document.getElementById('myAudio').pause()">⏸ Pause</button>
+    </div>
+  </div>
+
+  <footer>© 2025 About Zennntzy | Built with ❤️</footer>
+
+  <!-- Efek Ketikan -->
+  <script>
+    const text = "About Zenntzy";
+    let i = 0;
+    const typing = document.getElementById("type-text");
+    function typeEffect() {
+      if (i < text.length) {
+        typing.innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeEffect, 150);
+      }
+    }
+    window.addEventListener("load", typeEffect);
+  </script>
+
+  <!-- Bintang Jatuh -->
+  <script>
+    const canvas = document.getElementById("stars");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const stars = [];
+
+    function createStar() {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height / 2;
+      const speed = Math.random() * 3 + 1;
+      const size = Math.random() * 2 + 1;
+      stars.push({ x, y, speed, size });
+    }
+
+    function drawStar(star) {
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+      ctx.fillStyle = "white";
+      ctx.fill();
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < stars.length; i++) {
+        const star = stars[i];
+        star.x += star.speed;
+        star.y += star.speed;
+        drawStar(star);
+        if (star.x > canvas.width || star.y > canvas.height) {
+          stars.splice(i, 1);
+          i--;
+        }
+      }
+      if (Math.random() < 0.2) createStar();
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+
+</body>
+</html>
